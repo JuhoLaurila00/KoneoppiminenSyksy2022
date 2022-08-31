@@ -6,6 +6,7 @@ def listaa(x,y):
     print(pepe)
     koe = np.arange(0,100)
     print(koe)
+    print("Test")
 
 def huuhaa():
     
