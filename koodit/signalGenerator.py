@@ -1,5 +1,3 @@
-from multiprocessing.resource_sharer import stop
-from tracemalloc import start
 from W1_T3 import signalAnalyser  as analyzer
 import numpy as np
 import matplotlib.pyplot as plt
@@ -9,9 +7,11 @@ def t3():
     print(aika)
     taajuus = int(input("Anna taajuus 0-500: "))
     print(taajuus)
-    maara = int(input("Pisteiden maara: "))
+    rate = int(input("Anna näytteenottotaajuus: "))
+    print(rate)
+    maara = rate * aika #kerrotaan näytteenottotaajuus ajalla, jotta näytteitä on 1000 per sekunti, ajasta riippumatta
 
-    obj = analyzer(100,aika)
+    obj = analyzer(rate,aika)
     obj.create(taajuus)
     obj.plot(0,maara)
 
