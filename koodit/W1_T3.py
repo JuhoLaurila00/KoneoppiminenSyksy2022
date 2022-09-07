@@ -27,10 +27,12 @@ class signalAnalyser:
         y1 = self.yakseli
         y2 = self.Syakseli
         fig, ax = plt.subplots(2)
-        ax[0].plot(x[start:stop],y1[start:stop],'-*')
+        ax[0].plot(x[start:stop],y1[start:stop],'-*')   
+        ax[0].set_title("Kosini", fontsize=10)
         ax[1].plot(x[start:stop],y2[start:stop],'-*')
-        plt.figure(1)
+        ax[1].set_title("Sini",fontsize=10)
         
+        plt.figure(1)
         plt.show()   
 
 if __name__ == '__main__':
