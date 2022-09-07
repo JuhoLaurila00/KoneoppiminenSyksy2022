@@ -24,10 +24,10 @@ Tehtävä 2:
 
 def teht1():
     df = pd.read_csv('national-history.csv')
-    print("Size of dataframe: ", df.shape)
     data = df[['date', 'death', 'hospitalizedIncrease', 'hospitalizedCurrently']]
     
     fig, ax = plt.subplots(3)
+    fig.set_size_inches(14,6)
 
     ax[0].set_title('Dead')
     ax[0].plot(mdates.num2date(mdates.datestr2num(data['date'])),data['death'], color='red')
@@ -45,27 +45,21 @@ def teht1():
 
 def teht2():
     df = pd.read_csv('national-history.csv')
-    date_array = df['date'].to_numpy()
-    death_array = df['death'].to_numpy()
-    Hosp_array = df['hospitalizedIncrease'].to_numpy()
-    HospCur_array = df['hospitalizedCurrently'].to_numpy()
-    date_array = date_array[::-1]
-    death_array = death_array[::-1]
-    Hosp_array = Hosp_array[::-1]
-    HospCur_array = HospCur_array[::-1]
+    data_array = df.to_numpy()    #Tehdään dataframesta numpy array
+    shape = data_array.shape      #Selvitetään arrayn muoto
+    axisLenght = shape[0]         #Otetaan arrayn muodosta sen pituus, tässä tapauksessa pituus oli 420
 
-    date_array = mdates.num2date(mdates.datestr2num(date_array))
-    
     fig, ax = plt.subplots(3)
+    fig.set_size_inches(14,6)
     
     ax[0].set_title('Dead')
-    ax[0].plot(date_array,death_array, color='red')
+    ax[0].plot(mdates.num2date(mdates.datestr2num(data_array[0:axisLenght,0])), data_array[0:axisLenght,1], color='red')
 
     ax[1].set_title('Hospitalized Increase')
-    ax[1].plot(date_array,Hosp_array, color='green')
+    ax[1].plot(mdates.num2date(mdates.datestr2num(data_array[0:axisLenght,0])), data_array[0:axisLenght,5], color='green')
 
     ax[2].set_title('Hospitalized Currently')
-    ax[2].plot(date_array, HospCur_array, color='blue')
+    ax[2].plot(mdates.num2date(mdates.datestr2num(data_array[0:axisLenght,0])), data_array[0:axisLenght,6], color='blue')
     
     
     
@@ -76,4 +70,5 @@ def teht2():
 teht1()
 teht2()
 
-plt.show()
+plt.show()  #Molemmat näyttävät samalta, koska käytin molemmissa matplotlib.dates:a formatoimaan dataframesta saatu date, joka muuttaa sen stringistä oikeaan date-time formaattiin jota matplotlib voi käyttää oikein
+            #eikä tulostusjärjestystä tarvi vaihtaa erikseen
