@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 
 """ 
 Tehtävä 1: 
@@ -29,13 +30,13 @@ def teht1():
     fig, ax = plt.subplots(3)
 
     ax[0].set_title('Dead')
-    ax[0].plot(data.index,data['death'], color='red')  #Käytin aluksi x-akselin kohdalla data['date'], mutta se tulosti kaikki päivämäärät joka näytti kauempaa pelkältä mustalta viivalta
+    ax[0].plot(mdates.num2date(mdates.datestr2num(data['date'])),data['death'], color='red')
 
     ax[1].set_title('Hospitalized Increase')
-    ax[1].plot(data.index,data['hospitalizedIncrease'], color='green')
+    ax[1].plot(mdates.num2date(mdates.datestr2num(data['date'])),data['hospitalizedIncrease'], color='green')
 
     ax[2].set_title('Hospitalized Currently')
-    ax[2].plot(data.index, data['hospitalizedCurrently'], color='blue')
+    ax[2].plot(mdates.num2date(mdates.datestr2num(data['date'])), data['hospitalizedCurrently'], color='blue')
 
     print(data[['date','hospitalizedIncrease']][data.hospitalizedIncrease==data['hospitalizedIncrease'].max()]) #Tulostaa päivän milloin potilaiden kasvu oli suurinta
 
@@ -52,7 +53,9 @@ def teht2():
     death_array = death_array[::-1]
     Hosp_array = Hosp_array[::-1]
     HospCur_array = HospCur_array[::-1]
-     
+
+    date_array = mdates.num2date(mdates.datestr2num(date_array))
+    
     fig, ax = plt.subplots(3)
     
     ax[0].set_title('Dead')
@@ -63,10 +66,14 @@ def teht2():
 
     ax[2].set_title('Hospitalized Currently')
     ax[2].plot(date_array, HospCur_array, color='blue')
+    
+    
+    
 
 
     
 
 teht1()
 teht2()
+
 plt.show()
