@@ -9,7 +9,7 @@ def t3():
     print(taajuus)
     rate = int(input("Anna näytteenottotaajuus: "))
     print(rate)
-    maara = rate * aika #kerrotaan näytteenottotaajuus ajalla, jotta näytteitä on 1000 per sekunti, ajasta riippumatta
+    maara = rate * aika #kerrotaan näytteenottotaajuus ajalla, jotta näytteitä on haluttu maara per sekunti, ajasta riippumatta
 
     obj = analyzer(rate,aika)
     obj.create(taajuus)
