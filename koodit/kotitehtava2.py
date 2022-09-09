@@ -28,6 +28,7 @@ def teht1():
     
     fig, ax = plt.subplots(3)
     fig.set_size_inches(14,6)
+    fig.suptitle('Dataframe (Teht1)')
 
     ax[0].set_title('Dead')
     ax[0].plot(mdates.num2date(mdates.datestr2num(data['date'])),data['death'], color='red')
@@ -46,22 +47,21 @@ def teht1():
 def teht2():
     df = pd.read_csv('national-history.csv')
     data_array = df.to_numpy()    #Tehdään dataframesta numpy array
-    shape = data_array.shape      #Selvitetään arrayn muoto
-    axisLenght = shape[0]         #Otetaan arrayn muodosta sen pituus, tässä tapauksessa pituus oli 420
 
-    data_array[0:axisLenght,0] = mdates.num2date(mdates.datestr2num(data_array[0:axisLenght,0])) #Muutetaan data_arrayn 0 columnin data tyyppi stringistä date-timeen
+    data_array[:,0] = mdates.num2date(mdates.datestr2num(data_array[:,0])) #Muutetaan data_arrayn 0 columnin data tyyppi stringistä date-timeen
 
     fig, ax = plt.subplots(3)
     fig.set_size_inches(14,6)
+    fig.suptitle('Array (Teht2)')
     
     ax[0].set_title('Dead')
-    ax[0].plot(data_array[0:axisLenght,0], data_array[0:axisLenght,1], color='red')
+    ax[0].plot(data_array[:,0], data_array[:,1], color='red')
 
     ax[1].set_title('Hospitalized Increase')
-    ax[1].plot(data_array[0:axisLenght,0], data_array[0:axisLenght,5], color='green')
+    ax[1].plot(data_array[:,0], data_array[:,5], color='green')
 
     ax[2].set_title('Hospitalized Currently')
-    ax[2].plot(data_array[0:axisLenght,0], data_array[0:axisLenght,6], color='blue')
+    ax[2].plot(data_array[:,0], data_array[:,6], color='blue')
     
     
     
