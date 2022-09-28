@@ -52,6 +52,7 @@ import sklearn # This is anyway how package is imported
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import confusion_matrix
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -99,9 +100,19 @@ RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
 #RandomForests
 model = RandomForestClassifier(n_estimators=40)
 model.fit(x_train, y_train)
-print(model.score(x_test, y_test))
+print('Random Forests: ', model.score(x_test, y_test))
+
+y_predicted = model.predict(x_test)
+cm = confusion_matrix(y_test, y_predicted)
+print(cm)
+
+
 
 #K-means
 model = KNeighborsClassifier(n_neighbors=4)
 model.fit(x_train, y_train)
-print(model.score(x_test, y_test))
+print('K-means: ', model.score(x_test, y_test))
+
+y_predicted = model.predict(x_test)
+cm = confusion_matrix(y_test, y_predicted)
+print(cm)
