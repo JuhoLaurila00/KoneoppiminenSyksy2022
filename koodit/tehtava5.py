@@ -63,29 +63,24 @@ df = pd.read_csv('dataout.csv',delimiter='\t', header=None, usecols=[1,2,3,4])
 
 df = df.iloc[1:, 0:4]
 df = df.astype({1: int, 2: int, 3: int, 4: "category"})
-
 df[5] = df[4].cat.codes
 #print(df)
 
-
-filt_df = df[(df[1] < 1024)]        #Suodatetaan yli 1023
-filt_df = filt_df[(filt_df[2] < 1024)]  
-filt_df = filt_df[(filt_df[3] < 1024)]  
+filt_df = df[(df[1] < 1024) & (df[2] < 1024) & (df[3] < 1024)]        #Suodatetaan yli 1023 rivit pois
 #print(filt_df)
 
-data_matrix = np.zeros((filt_df.shape[0],3))
+data_matrix = np.zeros((filt_df.shape[0],3),dtype=int)
 data_matrix[:, 0] = filt_df[1].to_numpy()
 data_matrix[:, 1] = filt_df[2].to_numpy()
 data_matrix[:, 2] = filt_df[3].to_numpy()
-data_matrix = data_matrix.astype(int)
 #print(data_matrix)
 
+label_array = np.zeros((filt_df.shape[0],1),dtype=int)
 label_array = filt_df[5].to_numpy()
-label_array = label_array.astype(int)
 #print(label_array)
 
 
-x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(data_matrix,label_array, test_size=0.2)
+x_train, x_test, y_train, y_test = train_test_split(data_matrix,label_array, test_size=0.2)
 #print(y_test)
 
 
@@ -98,9 +93,12 @@ RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
    n_estimators=40, n_jobs=1, oob_score=False, random_state=None, verbose=0, warm_start=False)
 '''
 #RandomForests
+start =  time.time()
+
 model = RandomForestClassifier(n_estimators=40)
 model.fit(x_train, y_train)
-print('Random Forests: ', model.score(x_test, y_test))
+print("Training time for random forests: ", (time.time()-start)*1000,"ms")
+print('Random Forests accuracy: ', model.score(x_test, y_test))
 
 y_predicted = model.predict(x_test)
 cm = confusion_matrix(y_test, y_predicted)
@@ -109,9 +107,12 @@ print(cm)
 
 
 #K-means
+start = time.time()
+
 model = KNeighborsClassifier(n_neighbors=4)
 model.fit(x_train, y_train)
-print('K-means: ', model.score(x_test, y_test))
+print("Training time for k-means: ", (time.time()-start)*1000,"ms")
+print('K-means accuracy: ', model.score(x_test, y_test))
 
 y_predicted = model.predict(x_test)
 cm = confusion_matrix(y_test, y_predicted)
